@@ -8,51 +8,61 @@
 </head>
 <body>
   <header><h1>写真の情報を入力</h1></header>
+
   <img id="displayImage" src="" alt="プレビュー" style="max-width: 100%;" />
+
   <label for="photoName">名前：</label>
   <input type="text" id="photoName" />
+
   <label for="photoDescription">説明：</label>
   <textarea id="photoDescription"></textarea>
+
   <button id="btnNext">次へ</button>
   <button id="btnBack">戻る</button>
- <script>
-  const image = document.getElementById('displayImage');
-  const nameInput = document.getElementById('photoName');
-  const descInput = document.getElementById('photoDescription');
-  const btnNext = document.getElementById('btnNext');
-  const btnBack = document.getElementById('btnBack');
 
-  // セッションストレージから画像取得
-  const photoData = sessionStorage.getItem('currentPhoto');
-  if (photoData) {
-    image.src = photoData;
-  } else {
-    console.warn('currentPhoto が見つかりません');
-  }
+  <script>
+    const image = document.getElementById('displayImage');
+    const nameInput = document.getElementById('photoName');
+    const descInput = document.getElementById('photoDescription');
+    const btnNext = document.getElementById('btnNext');
+    const btnBack = document.getElementById('btnBack');
 
-  btnNext.onclick = () => {
-    const name = nameInput.value.trim();
-    const desc = descInput.value.trim();
-    if (!photoData || !name || !desc) { // ★画像も必須チェック
-      alert('画像、名前、説明を入力してください');
-      return;
+    // セッションストレージから画像取得
+    const photoData = sessionStorage.getItem('currentPhoto');
+    if (photoData) {
+      image.src = photoData;
+    } else {
+      console.warn('currentPhoto が見つかりません');
     }
-    const zukanId = localStorage.getItem('currentZukanId');
-    if (!zukanId) {
-      alert('図鑑が選択されていません');
-      return;
-    }
-    const photo = { image: photoData, name: name, description: desc };
-    addPhotoToZukan(zukanId, photo);
-    sessionStorage.removeItem('currentPhoto');
-    location.href = 'complete.html';
-  };
 
-  btnBack.onclick = () => {
-    location.href = 'add_photo.html';
-  };
- </script>
+    btnNext.onclick = () => {
+      const name = nameInput.value.trim();
+      const desc = descInput.value.trim();
 
+      if (!photoData || !name || !desc) { // ★画像も必須チェック
+        alert('画像、名前、説明を入力してください');
+        return;
+      }
+
+      const zukanId = localStorage.getItem('currentZukanId');
+      if (!zukanId) {
+        alert('図鑑が選択されていません');
+        return;
+      }
+
+      const photo = { image: photoData, name: name, description: desc };
+      addPhotoToZukan(zukanId, photo);
+
+      // セッションストレージはここで削除
+      sessionStorage.removeItem('currentPhoto');
+
+      // ✅ スマホ対応：GitHub Pages では絶対パスに変更
+      location.href = '/myzukan/complete.html';
+    };
+
+    btnBack.onclick = () => {
+      location.href = '/myzukan/add_photo.html';
+    };
+  </script>
 </body>
 </html>
-
