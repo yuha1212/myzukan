@@ -1,32 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>写真の情報</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <title>写真を追加</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>写真の情報を入力</h1>
-
-  <input type="file" id="imageInput"><br>
-  <img id="previewImage" src="" style="max-width: 100%;"><br>
-
-  <input type="text" id="photoName" placeholder="名前を入力"><br>
-  <textarea id="photoDescription" placeholder="説明を入力"></textarea><br>
-
-  <button id="btnNext">登録</button>
+  <header><h1>写真を追加</h1></header>
+  <input type="file" id="imageInput" accept="image/*">
+  <img id="previewImage" src="" alt="プレビュー" style="max-width: 100%; display: none;">
+  <button id="btnNext">次へ</button>
   <button id="btnBack">戻る</button>
 
   <script>
     const imageInput = document.getElementById('imageInput');
     const preview = document.getElementById('previewImage');
-    const photoName = document.getElementById('photoName');
-    const photoDescription = document.getElementById('photoDescription');
     const btnNext = document.getElementById('btnNext');
     const btnBack = document.getElementById('btnBack');
     let imageData = null;
 
+    // 画像を選択したらプレビュー表示
     imageInput.addEventListener('change', () => {
       const file = imageInput.files[0];
       if (!file) return;
@@ -34,32 +27,21 @@
       reader.onload = (e) => {
         imageData = e.target.result;
         preview.src = imageData;
+        preview.style.display = 'block';
       };
       reader.readAsDataURL(file);
     });
 
+    // 次へボタン
     btnNext.onclick = () => {
-      const name = photoName.value.trim();
-      const description = photoDescription.value.trim();
-      if (!imageData || !name || !description) {
-        alert('画像、名前、説明を入力してください');
+      if (!imageData) {
+        alert('画像を選択してください');
         return;
       }
-
-      const zukanId = localStorage.getItem('currentZukanId');
-      if (!zukanId) {
-        alert('図鑑IDが見つかりません');
-        return;
-      }
-
-      addPhotoToZukan(zukanId, {
-        image: imageData,
-        name: name,
-        description: description
-      });
-
-      alert('写真を追加しました');
-      location.href = 'zukan_view.html';
+      // sessionStorage に画像を保存
+      sessionStorage.setItem('currentPhoto', imageData);
+      // photo_info.html に遷移
+      location.href = 'photo_info.html';
     };
 
     btnBack.onclick = () => {
