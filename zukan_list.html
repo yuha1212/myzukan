@@ -1,0 +1,63 @@
+<!-- ✅ zukan_list.html を修正（getZukans が未定義エラーの修正） -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>図鑑一覧</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>登録済み図鑑一覧</h1>
+  </header>
+  <div id="listContainer"></div>
+  <button id="btnBack">スタート画面に戻る</button>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const listContainer = document.getElementById('listContainer');
+      const btnBack = document.getElementById('btnBack');
+
+      function renderList() {
+        // ✅ script.js の getZukans() 関数を使う
+        const zukans = getZukans();
+        if (zukans.length === 0) {
+          listContainer.innerHTML = '<p>まだ図鑑がありません。</p>';
+          return;
+        }
+
+        listContainer.innerHTML = '';
+        zukans.forEach(zukan => {
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.textContent = zukan.name;
+
+          const btnAdd = document.createElement('button');
+          btnAdd.textContent = '写真を追加';
+          btnAdd.onclick = () => {
+            localStorage.setItem('currentZukanId', zukan.id);
+            location.href = 'add_photo.html';
+          };
+
+          const btnView = document.createElement('button');
+          btnView.textContent = '閲覧';
+          btnView.onclick = () => {
+            localStorage.setItem('currentZukanId', zukan.id);
+            location.href = 'zukan_view.html';
+          };
+
+          div.appendChild(btnAdd);
+          div.appendChild(btnView);
+          listContainer.appendChild(div);
+        });
+      }
+
+      btnBack.onclick = () => {
+        location.href = 'index.html';
+      };
+
+      renderList();
+    });
+  </script>
+</body>
+</html>

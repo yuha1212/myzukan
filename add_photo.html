@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>写真の情報</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>写真の情報を入力</h1>
+
+  <input type="file" id="imageInput"><br>
+  <img id="previewImage" src="" style="max-width: 100%;"><br>
+
+  <input type="text" id="photoName" placeholder="名前を入力"><br>
+  <textarea id="photoDescription" placeholder="説明を入力"></textarea><br>
+
+  <button id="btnNext">登録</button>
+  <button id="btnBack">戻る</button>
+
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const preview = document.getElementById('previewImage');
+    const photoName = document.getElementById('photoName');
+    const photoDescription = document.getElementById('photoDescription');
+    const btnNext = document.getElementById('btnNext');
+    const btnBack = document.getElementById('btnBack');
+    let imageData = null;
+
+    imageInput.addEventListener('change', () => {
+      const file = imageInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imageData = e.target.result;
+        preview.src = imageData;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    btnNext.onclick = () => {
+      const name = photoName.value.trim();
+      const description = photoDescription.value.trim();
+      if (!imageData || !name || !description) {
+        alert('画像、名前、説明を入力してください');
+        return;
+      }
+
+      const zukanId = localStorage.getItem('currentZukanId');
+      if (!zukanId) {
+        alert('図鑑IDが見つかりません');
+        return;
+      }
+
+      addPhotoToZukan(zukanId, {
+        image: imageData,
+        name: name,
+        description: description
+      });
+
+      alert('写真を追加しました');
+      location.href = 'zukan_view.html';
+    };
+
+    btnBack.onclick = () => {
+      location.href = 'create_zukan.html';
+    };
+  </script>
+</body>
+</html>

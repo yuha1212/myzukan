@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>写真の情報を入力</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header><h1>写真の情報を入力</h1></header>
+  <img id="previewImage" src="" alt="プレビュー" style="max-width: 100%;" />
+  <label for="photoName">名前：</label>
+  <input type="text" id="photoName" />
+  <label for="photoDescription">説明：</label>
+  <textarea id="photoDescription"></textarea>
+  <button id="btnNext">次へ</button>
+  <button id="btnBack">戻る</button>
+  <script>
+    const image = document.getElementById('previewImage');
+    const nameInput = document.getElementById('photoName');
+    const descInput = document.getElementById('photoDescription');
+    const btnNext = document.getElementById('btnNext');
+    const btnBack = document.getElementById('btnBack');
+    const photoData = sessionStorage.getItem('currentPhoto');
+    if (photoData) image.src = photoData;
+    btnNext.onclick = () => {
+      const name = nameInput.value.trim();
+      const desc = descInput.value.trim();
+      if (!name || !desc) {
+        alert('名前と説明を入力してください');
+        return;
+      }
+      const zukanId = localStorage.getItem('currentZukanId');
+      if (!zukanId) {
+        alert('図鑑が選択されていません');
+        return;
+      }
+      const photo = { image: photoData, name: name, description: desc };
+      addPhotoToZukan(zukanId, photo);
+      sessionStorage.removeItem('currentPhoto');
+      location.href = 'complete.html';
+    };
+    btnBack.onclick = () => {
+      location.href = 'add_photo.html';
+    };
+  </script>
+</body>
+</html>

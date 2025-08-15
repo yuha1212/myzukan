@@ -1,0 +1,63 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 10px;
+  background: #f9f9f9;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input[type="text"], textarea, input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.list-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 8px 0;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-item button {
+  margin-left: 10px;
+}
+
+.photo-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.photo-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 12px;
+  border-radius: 8px;
+  text-align: center;
+  width: 220px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  background: white;
+}
+
+.photo-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}

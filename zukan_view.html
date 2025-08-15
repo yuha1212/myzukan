@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>図鑑を見る</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header><h1>図鑑の中身</h1></header>
+  <div id="photoList" class="photo-list"></div>
+  <button onclick="location.href='zukan_list.html'">図鑑一覧に戻る</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const zukanId = localStorage.getItem('currentZukanId');
+      const zukan = getZukanById(zukanId);
+      const photoList = document.getElementById('photoList');
+
+      if (!zukan) {
+        photoList.innerHTML = '<p>図鑑が見つかりません。</p>';
+        return;
+      }
+
+      if (!zukan.photos || zukan.photos.length === 0) {
+        photoList.innerHTML = '<p>写真がまだ登録されていません。</p>';
+      } else {
+        zukan.photos.forEach(photo => {
+          const card = document.createElement('div');
+          card.className = 'photo-card';
+          card.innerHTML = `
+            <img src="${photo.image}" alt="${photo.name}"><br>
+            <strong>${photo.name}</strong><br>
+            <p>${photo.description}</p>
+          `;
+          photoList.appendChild(card);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
