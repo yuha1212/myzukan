@@ -7,8 +7,10 @@
 </head>
 <body>
   <header><h1>写真を追加</h1></header>
+
   <input type="file" id="imageInput" accept="image/*">
   <img id="previewImage" src="" alt="プレビュー" style="max-width: 100%; display: none;">
+  
   <button id="btnNext">次へ</button>
   <button id="btnBack">戻る</button>
 
@@ -40,12 +42,13 @@
       }
       // sessionStorage に画像を保存
       sessionStorage.setItem('currentPhoto', imageData);
-      // photo_info.html に遷移
-      location.href = 'photo_info.html';
+      // ✅ スマホ対応：GitHub Pages では絶対パスに変更
+      location.href = '/myzukan/photo_info.html';
     };
 
+    // 戻るボタン
     btnBack.onclick = () => {
-      location.href = 'create_zukan.html';
+      location.href = '/myzukan/create_zukan.html';
     };
   </script>
 </body>
