@@ -1,4 +1,4 @@
-// 共通関数（localStorage用）
+// 共通関数（localStorage 用）
 function getZukans() {
   const json = localStorage.getItem('zukans');
   return json ? JSON.parse(json) : [];
@@ -15,8 +15,8 @@ function addZukan(zukan) {
 }
 
 function deleteZukan(id) {
-  let zukans = getZukans();
-  zukans = zukans.filter(zukan => zukan.id !== id);
+  // 図鑑と中の写真データを完全削除
+  const zukans = getZukans().filter(z => z.id !== id);
   saveZukans(zukans);
 }
 
