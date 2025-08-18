@@ -46,8 +46,18 @@
             location.href = 'zukan_view.html';
           };
 
+          const btnDelete = document.createElement('button');
+          btnDelete.textContent = '削除';
+          btnDelete.onclick = () => {
+            if (confirm(`「${zukan.name}」を削除しますか？`)) {
+              deleteZukan(zukan.id);
+              renderList(); // 再描画
+              }
+            };
+
           div.appendChild(btnAdd);
           div.appendChild(btnView);
+          div.appendChild(btnDelete); 
           listContainer.appendChild(div);
         });
       }
