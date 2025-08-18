@@ -29,7 +29,11 @@
         zukans.forEach(zukan => {
           const div = document.createElement('div');
           div.className = 'list-item';
-          div.textContent = zukan.name;
+
+　　　　　　const nameSpan = document.createElement('span');
+　　　　　　nameSpan.textContent = zukan.name;
+　　　　　　div.appendChild(nameSpan);
+
 
           const btnAdd = document.createElement('button');
           btnAdd.textContent = '写真を追加';
