@@ -1,5 +1,4 @@
-// 共通関数
-
+// 共通関数（localStorage用）
 function getZukans() {
   const json = localStorage.getItem('zukans');
   return json ? JSON.parse(json) : [];
@@ -15,20 +14,11 @@ function addZukan(zukan) {
   saveZukans(zukans);
 }
 
-function getZukans() {
-  return JSON.parse(sessionStorage.getItem("zukans") || "[]");
-}
-
-function saveZukans(zukans) {
-  sessionStorage.setItem("zukans", JSON.stringify(zukans));
-}
-
 function deleteZukan(id) {
   let zukans = getZukans();
   zukans = zukans.filter(zukan => zukan.id !== id);
   saveZukans(zukans);
 }
-
 
 function getZukanById(id) {
   const zukans = getZukans();
@@ -39,8 +29,7 @@ function addPhotoToZukan(id, photoData) {
   const zukans = getZukans();
   const index = zukans.findIndex(z => z.id === id);
   if (index === -1) return;
-
+  if (!zukans[index].photos) zukans[index].photos = [];
   zukans[index].photos.push(photoData);
   saveZukans(zukans);
 }
-
