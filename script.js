@@ -9,21 +9,26 @@ function saveZukans(zukans) {
   localStorage.setItem('zukans', JSON.stringify(zukans));
 }
 
-function addZukan(name) {
+function addZukan(zukan) {
   const zukans = getZukans();
-  const newZukan = {
-    id: Date.now().toString(),
-    name: name,
-    photos: []
-  };
-  zukans.push(newZukan);
+  zukans.push(zukan);
   saveZukans(zukans);
-  return newZukan.id;
 }
 
 function getZukans() {
-  return JSON.parse(localStorage.getItem("zukans") || "[]");
+  return JSON.parse(sessionStorage.getItem("zukans") || "[]");
 }
+
+function saveZukans(zukans) {
+  sessionStorage.setItem("zukans", JSON.stringify(zukans));
+}
+
+function deleteZukan(id) {
+  let zukans = getZukans();
+  zukans = zukans.filter(zukan => zukan.id !== id);
+  saveZukans(zukans);
+}
+
 
 function getZukanById(id) {
   const zukans = getZukans();
@@ -39,8 +44,3 @@ function addPhotoToZukan(id, photoData) {
   saveZukans(zukans);
 }
 
-function deleteZukan(id) {
-  let zukans = getZukans();
-  zukans = zukans.filter(zukan => zukan.id !== id);
-  sessionStorage.setItem('zukans', JSON.stringify(zukans));
-}
