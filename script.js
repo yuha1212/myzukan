@@ -38,3 +38,9 @@ function addPhotoToZukan(id, photoData) {
   zukans[index].photos.push(photoData);
   saveZukans(zukans);
 }
+
+function deleteZukan(id) {
+  let zukans = getZukans();
+  zukans = zukans.filter(zukan => zukan.id !== id);
+  sessionStorage.setItem('zukans', JSON.stringify(zukans));
+}
