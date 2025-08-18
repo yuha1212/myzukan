@@ -14,18 +14,23 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const zukanId = localStorage.getItem('currentZukanId');
-      const zukan = getZukanById(zukanId);
       const photoList = document.getElementById('photoList');
 
-      if (!zukan) {
-        photoList.innerHTML = '<p>図鑑が見つかりません。</p>';
-        return;
-      }
+      function renderPhotos() {
+        const zukan = getZukanById(zukanId);
+        if (!zukan) {
+          photoList.innerHTML = '<p>図鑑が見つかりません。</p>';
+          return;
+        }
 
-      if (!zukan.photos || zukan.photos.length === 0) {
-        photoList.innerHTML = '<p>写真がまだ登録されていません。</p>';
-      } else {
-        zukan.photos.forEach(photo => {
+        if (!zukan.photos || zukan.photos.length === 0) {
+          photoList.innerHTML = '<p>写真がまだ登録されていません。</p>';
+          return;
+        }
+
+        photoList.innerHTML = '';
+
+        zukan.photos.forEach((photo, index) => {
           const card = document.createElement('div');
           card.className = 'photo-card';
           card.innerHTML = `
@@ -33,9 +38,23 @@
             <strong>${photo.name}</strong><br>
             <p>${photo.description}</p>
           `;
+
+          const btnDelete = document.createElement('button');
+          btnDelete.textContent = '削除';
+          btnDelete.onclick = () => {
+            if (confirm(`「${photo.name}」を削除しますか？`)) {
+              zukan.photos.splice(index, 1);  // 配列から削除
+              saveZukans(getZukans());        // localStorage 保存
+              renderPhotos();                 // 再描画
+            }
+          };
+
+          card.appendChild(btnDelete);
           photoList.appendChild(card);
         });
       }
+
+      renderPhotos();
     });
   </script>
 </body>
