@@ -16,6 +16,7 @@
       const zukanId = localStorage.getItem('currentZukanId');
       const photoList = document.getElementById('photoList');
 
+      // 写真一覧を描画する関数
       function renderPhotos() {
         const zukan = getZukanById(zukanId);
         if (!zukan) {
@@ -39,13 +40,24 @@
             <p>${photo.description}</p>
           `;
 
+          // 削除ボタンを追加
           const btnDelete = document.createElement('button');
           btnDelete.textContent = '削除';
           btnDelete.onclick = () => {
             if (confirm(`「${photo.name}」を削除しますか？`)) {
-              zukan.photos.splice(index, 1);  // 配列から削除
-              saveZukans(getZukans());        // localStorage 保存
-              renderPhotos();                 // 再描画
+              // 配列から削除
+              zukan.photos.splice(index, 1);
+
+              // 図鑑配列を更新して localStorage に保存
+              const zukans = getZukans();
+              const idx = zukans.findIndex(z => z.id === zukan.id);
+              if (idx !== -1) {
+                zukans[idx] = zukan;
+                saveZukans(zukans);
+              }
+
+              // 再描画
+              renderPhotos();
             }
           };
 
